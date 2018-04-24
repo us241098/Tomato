@@ -1,0 +1,26 @@
+<div class = "row feed">
+    <div class="col-md-4">
+        <h4>Login</h4>
+        <input type="text" size="30" placeholder="Username" ng-model="username">
+        <br> 
+        <input type="text" size="30" placeholder="Password" ng-model="password">
+        <button type="button" class="btn" ng-click-"signin()">Sign In</button>
+        <a href ="#/signup"> Not a member? </a>
+    </div>
+
+
+    <div class="col-md-8">
+        <div class="new-fruit">
+            <input type="text"class="form-control" placeholder="write something" ng-model="newfruit">
+            <button type="button" class="btn" ng-click ="submitnew()">Submit</button>
+            {{newfruit}}
+        </div>
+
+
+        <h3 ng-repeat="fruit in fruits"> 
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            {{fruit.text}}
+            <a href ng-click = "removefruit(fruit)"> <span class = "glyphicon glyphicon-remove"  aria-hidden="true" ></span>  </a>
+        </h3>
+    </div>
+</div>

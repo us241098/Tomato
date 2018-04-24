@@ -1,0 +1,94 @@
+<html ng-app="tomato"> 
+<head>
+        <title>Tomato</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./styles.css"> 
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.js"></script>
+
+        <script type="text/javascript">
+            var app = angular.module('tomato',['ngRoute']);
+
+            app.config(function($routeProvider, $locationProvider){
+                $routeProvider
+                            .when('/',{
+                                templateUrl:'home.html',
+                                controller: 'HomeController',
+                            })
+                            .when('/signup',{
+                                templateUrl:'signup.html',
+                                controller:'SignupController',
+
+                            });
+            });
+
+
+            app.controller( 'HomeController' ,function ($scope, $http){
+
+                $scope.submitnew  =function() {
+                    $http.post('/fruits', {newfruit: $scope.newfruit}).then(function(){
+                        getfruits();
+                        $scope.newfruit='';
+                    });
+                }; 
+
+                $scope.removefruit= function(fruit){
+                    $http.put('/fruits/remove', {fruit:fruit}).then(function(){
+                        getfruits();
+                        $scope.newfruits='';
+                    });
+                };
+
+
+                $scope.signin = function(){
+
+                    $http.put('/users/signin', {username: $scope.username,  password: $scope.password}).then(function(){
+                        console.log('yooooooooo');
+                        alert("sucess");
+
+                    },
+                    function(err){
+                        alert('bad');
+                    });
+                    
+                };
+
+
+                    function getfruits(){
+                    $http.get('/fruits').then(function(response){
+                        $scope.fruits = response.data;
+                    
+                    });
+
+                }
+                getfruits();
+
+            }); 
+
+
+
+            app.controller('SignupController', function($scope,$http){
+                $scope.submitSignup= function(){
+
+                    var newUser = {
+                        username: $scope.username,
+                        password: $scope.password
+                    };
+
+                    $http.post('/users', newUser).then(function() {
+                        alert("hfsdjjf");
+                    });
+                }
+            });
+
+        </script>
+
+        
+</head>
+<body>
+    <h1 class="page-title"><a href="#/">Tomato</a></h1>
+    <div ng-view></div>
+</body>
+
+</html>
